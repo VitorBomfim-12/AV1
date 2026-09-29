@@ -1,0 +1,216 @@
+1:import { createInterface } from 'node:readline/promises';
+2:import { stdin as input, stdout as output } from 'node:process';
+3:import * as fs from 'fs';
+4:import * as path from 'path';
+5:import { CryptoService } from './security';
+6:import { PersistenceService } from './store';
+7:import { Service } from './service';
+8:import { Role, EquipmentStatus } from './model';
+9:import { AppError } from './errors';
+10:
+11:const CONFIG_PATH = path.join(__dirname, '../config.json');
+12:const DATA_DIR = path.join(__dirname, '../data');
+13:
+14:const rl = createInterface({ input, output });
+15:let app: Service;
+16:let idleTimer: NodeJS.Timeout | undefined;
+17:
+18:const ask = (label: string) => {
+19:  if (idleTimer) clearTimeout(idleTimer);
+20:  idleTimer = setTimeout(() => {
+21:    console.log("\nSessão encerrada após 30 minutos sem atividade.");
+22:    rl.close();
+23:    process.exit(0);
+24:  }, 30 * 60_000);
+25:  return rl.question(`${label}: `);
+26:};
+27:
+28:const password = async (label: string) => ask(label);
+29:
+30:async function boot() {
+31:  try {
+32:    if (!fs.existsSync(CONFIG_PATH)) {
+33:      console.log("=== PROVISIONAMENTO INICIAL ===");
+34:      console.log("Nenhum arquivo de configuração encontrado.");
+35:      const masterKey = CryptoService.generateMasterKey();
+36:      console.log("Chave mestre gerada com sucesso.");
+37:      
+38:      const adminName = await ask("Nome do administrador");
+39:      const adminUser = await ask("Usuário");
+40:      const adminPass = await password("Senha");
+41:
+42:      fs.writeFileSync(CONFIG_PATH, JSON.stringify({ masterKey }, null, 2));
+43:
+44:      const persistence = new PersistenceService(DATA_DIR, masterKey);
+45:      app = new Service(persistence);
+46:      
+47:      const tempId = "provision";
+48:      (app as any).db.users.push({ id: tempId, username: "temp", role: Role.ADMINISTRADOR, active: true });
+49:      app.createUser(tempId, adminName, adminUser, adminPass, Role.ADMINISTRADOR);
+50:      (app as any).db.users = (app as any).db.users.filter((u: any) => u.id !== tempId);
+51:
+52:      console.log("Administrador criado.");
+53:    }
+54:
+55:    const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
+56:    const persistence = new PersistenceService(DATA_DIR, config.masterKey);
+57:    app = new Service(persistence);
+58:
+59:    const user = app.login(await ask("Usuário"), await password("Senha"));
+60:    console.log(`\nOlá, ${user.name} (${user.role}).`);
+61:    
+62:    let running = true;
+63:    while (running) {
+64:      const options = [
+65:        { id: "1", label: "Listar organizações", roles: [Role.ADMINISTRADOR, Role.OPERADOR_CADASTRO, Role.AUDITOR] },
+66:        { id: "2", label: "Cadastrar organização", roles: [Role.ADMINISTRADOR, Role.OPERADOR_CADASTRO] },
+67:        { id: "3", label: "Cadastrar equipamento", roles: [Role.ADMINISTRADOR, Role.ALMOXARIFE] },
+68:        { id: "4", label: "Atualizar equipamento (Condição/Status)", roles: [Role.ADMINISTRADOR, Role.ALMOXARIFE] },
+69:        { id: "5", label: "Criar lote", roles: [Role.ADMINISTRADOR, Role.ALMOXARIFE] },
+70:        { id: "6", label: "Listar equipamentos", roles: [Role.ADMINISTRADOR, Role.ALMOXARIFE, Role.AUDITOR] },
+71:        { id: "7", label: "Histórico de equipamento (Rastreabilidade)", roles: [Role.ADMINISTRADOR, Role.AUDITOR] },
+72:        { id: "8", label: "Criar usuário", roles: [Role.ADMINISTRADOR] },
+73:        { id: "0", label: "Sair", roles: [Role.ADMINISTRADOR, Role.OPERADOR_CADASTRO, Role.ALMOXARIFE, Role.AUDITOR] }
+74:      ];
+75:
+76:      const allowedOptions = options.filter(opt => opt.roles.includes(user.role as Role));
+77:      
+78:      const menuText = allowedOptions.map(opt => `${opt.id}. ${opt.label}`).join('  ');
+79:      console.log(`\n${menuText}`);
+80:      
+81:      const choice = await ask("Opção");
+82:      
+83:      if (!allowedOptions.find(o => o.id === choice)) {
+84:        console.log("Opção inválida ou acesso negado.");
+85:        continue;
+86:      }
+87:
+88:      try {
+89:        switch (choice) {
+90:          case "1": {
+91:            const orgs = app.listOrganizations(user.id);
+92:            console.table(orgs.map(o => ({ ID: o.id, Nome: o.name, CNPJ: o.cnpj })));
+93:            break;
+94:          }
+95:          case "2": {
+96:            const org = app.createOrganization(
+97:              user.id,
+98:              await ask("Nome"),
+99:              await ask("CNPJ"),
+100:              await ask("Tipo"),
+101:              await ask("Telefone"),
+102:              await ask("E-mail"),
+103:              await ask("Endereço")
+104:            );
+105:            console.log(`Organização cadastrada: ${org.id}`);
+106:            break;
+107:          }
+108:          case "3": {
+109:            const e = app.createEquipment(
+110:              user.id,
+111:              await ask("ID da organização"),
+112:              await ask("Número de série"),
+113:              await ask("Categoria"),
+114:              await ask("Marca"),
+115:              await ask("Modelo"),
+116:              await ask("Condição (NOVO, OTIMO, BOM, REGULAR, RUIM, PESSIMO, SUCATA)"),
+117:              await ask("Localização"),
+118:              await ask("Observações")
+119:            );
+120:            console.log(`Equipamento cadastrado: ${e.id}`);
+121:            break;
+122:          }
+123:          case "4": {
+124:            const equipId = await ask("ID do equipamento");
+125:            const opt = await ask("O que deseja atualizar? (1 - Condição Física, 2 - Status de Logística)");
+126:            if (opt === "1") {
+127:               app.updateEquipmentCondition(
+128:                 user.id,
+129:                 equipId,
+130:                 await ask("Nova Condição (NOVO, OTIMO, BOM, REGULAR, RUIM, PESSIMO, SUCATA)"),
+131:                 await ask("Justificativa (obrigatória se cair 2 categorias)")
+132:               );
+133:               console.log("Condição atualizada.");
+134:            } else if (opt === "2") {
+135:               const status = await ask("Novo status (" + Object.values(EquipmentStatus).join(", ") + ")");
+136:               app.changeEquipmentStatus(
+137:                 user.id,
+138:                 equipId,
+139:                 status as EquipmentStatus,
+140:                 await ask("Observação")
+141:               );
+142:               console.log("Status atualizado.");
+143:            } else {
+144:               console.log("Opção inválida.");
+145:            }
+146:            break;
+147:          }
+148:          case "5": {
+149:            const code = await ask("Código do lote");
+150:            const origin = await ask("Origem");
+151:            const dest = await ask("Destino");
+152:            const idsStr = await ask("IDs dos equipamentos (separados por vírgula)");
+153:            const ids = idsStr.split(',').map(i => i.trim()).filter(Boolean);
+154:            
+155:            const lot = app.createLot(user.id, code, origin, dest, new Date().toISOString(), ids);
+156:            console.log(`Lote criado: ${lot.id}`);
+157:            break;
+158:          }
+159:          case "6": {
+160:            const eqs = app.listEquipments(user.id);
+161:            console.table(eqs.map(e => ({ ID: e.id, Serial: e.serial, Status: e.status, Cond: e.condition })));
+162:            break;
+163:          }
+164:          case "7": {
+165:            const hist = app.getEquipmentHistory(user.id, await ask("ID do equipamento"));
+166:            console.table(hist.map(h => ({ Data: h.createdAt, Tipo: h.type, De: h.fromStatus, Para: h.toStatus, Nota: h.note })));
+167:            break;
+168:          }
+169:          case "8": {
+170:            console.log("Perfis disponíveis:");
+171:            console.log("1 - ADMINISTRADOR");
+172:            console.log("2 - OPERADOR_CADASTRO");
+173:            console.log("3 - ALMOXARIFE");
+174:            console.log("4 - AUDITOR");
+175:            let roleInput = await ask("Escolha o perfil (1 a 4)");
+176:            let role: Role;
+177:            
+178:            if (roleInput === "1" || roleInput.toUpperCase() === "ADMINISTRADOR") role = Role.ADMINISTRADOR;
+179:            else if (roleInput === "2" || roleInput.toUpperCase() === "OPERADOR_CADASTRO") role = Role.OPERADOR_CADASTRO;
+180:            else if (roleInput === "3" || roleInput.toUpperCase() === "ALMOXARIFE") role = Role.ALMOXARIFE;
+181:            else if (roleInput === "4" || roleInput.toUpperCase() === "AUDITOR") role = Role.AUDITOR;
+182:            else {
+183:              console.log("Perfil inválido. Operação cancelada.");
+184:              break;
+185:            }
+186:
+187:            const created = app.createUser(
+188:              user.id,
+189:              await ask("Nome"),
+190:              await ask("Usuário"),
+191:              await password("Senha"),
+192:              role
+193:            );
+194:            console.log(`Usuário criado: ${created.username}`);
+195:            break;
+196:          }
+197:          case "0":
+198:            running = false;
+199:            break;
+200:        }
+201:      } catch (error: any) {
+202:        console.log(`Erro: ${error.message}`);
+203:      }
+204:    }
+205:  } catch (error: any) {
+206:    console.error(
+207:      `${error instanceof AppError ? "Erro de Negócio" : "Falha"}: ${error.message}`
+208:    );
+209:    process.exitCode = 1;
+210:  } finally {
+211:    if (idleTimer) clearTimeout(idleTimer);
+212:    rl.close();
+213:  }
+214:}
+215:
+216:void boot();
