@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id           String   @id @default(uuid())
+  name         String
+  username     String   @unique
+  email        String?  @unique
+  passwordHash String
+  role         String
+  active       Boolean  @default(true)
+  version      Int      @default(1)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  lotsCreated Lote[]            @relation("UserCreatedLots")
+  movements   Movimentacao[]    @relation("UserMovements")
+  auditEvents EventoAuditoria[] @relation("UserAuditEvents")
+
+  @@map("usuarios")
+}
+
+model Organizacao {
+  id        String   @id @default(uuid())
+  name      String
+  cnpj      String   @unique
+  type      String
+  phone     String
+  email     String
+  address   String
+  active    Boolean  @default(true)
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  contract   Contrato?
+  lots       Lote[]
+  equipments Equipamento[]
+
+  @@map("organizacoes")
+}
+
+model Contrato {
+  id                    String    @id @default(uuid())
+  organizationId        String    @unique
+  contractNumber        String    @unique
+  startDate             DateTime
+  endDate               DateTime?
+  status                String    @default("ATIVO")
+  collectionFrequency   String    @default("MENSAL")
+  taxRate               Float     @default(0)
+  depreciationRate      Float     @default(10)
+  estimatedMonthlyValue Float     @default(0)
+  clauses               Json?
+  notes                 String    @default("")
+  version               Int       @default(1)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  organization Organizacao @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
+  @@map("contratos")
+}
+
+model Lote {
+  id             String   @id @default(uuid())
+  code           String   @unique
+  organizationId String
+  createdById    String
+  invoiceNumber  String?
+  carrier        String?
+  origin         String
+  destination    String
+  status         String   @default("ABERTO")
+  entryDate      DateTime @default(now())
+  notes          String   @default("")
+  version        Int      @default(1)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organizacao    @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  createdBy    Usuario        @relation("UserCreatedLots", fields: [createdById], references: [id], onDelete: Restrict)
+  equipments   Equipamento[]
+  movements    Movimentacao[]
+
+  @@index([organizationId])
+  @@index([status])
+  @@map("lotes")
+}
+
+model Equipamento {
+  id                  String   @id @default(uuid())
+  organizationId      String
+  lotId               String?
+  codigoBarrasInterno String   @unique
+  serial              String
+  category            String
+  brand               String
+  model               String
+  condition           String
+  status              String   @default("RECEBIDO")
+  location            String
+  estimatedValue      Float    @default(0)
+  currentValue        Float    @default(0)
+  receivedAt          DateTime @default(now())
+  notes               String   @default("")
+  version             Int      @default(1)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  organization Organizacao    @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  lot          Lote?          @relation(fields: [lotId], references: [id], onDelete: SetNull)
+  movements    Movimentacao[]
+
+  @@index([organizationId])
+  @@index([lotId])
+  @@index([status])
+  @@map("equipamentos")
+}
+
+model Movimentacao {
+  id             String   @id @default(uuid())
+  equipmentId    String
+  lotId          String?
+  actorId        String
+  type           String
+  quantity       Int      @default(1)
+  note           String
+  fromStatus     String?
+  toStatus       String?
+  fromCondition  String?
+  toCondition    String?
+  fromLocation   String?
+  toLocation     String?
+  financialValue Float?
+  version        Int      @default(1)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  equipment Equipamento @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  lot       Lote?       @relation(fields: [lotId], references: [id], onDelete: SetNull)
+  actor     Usuario     @relation("UserMovements", fields: [actorId], references: [id], onDelete: Restrict)
+
+  @@index([equipmentId])
+  @@index([lotId])
+  @@index([actorId])
+  @@map("movimentacoes")
+}
+
+model EventoAuditoria {
+  id           String   @id @default(uuid())
+  actorId      String?
+  action       String
+  entityName   String
+  entityId     String
+  details      Json
+  previousHash String
+  hash         String   @unique
+  version      Int      @default(1)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  actor Usuario? @relation("UserAuditEvents", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entityName, entityId])
+  @@index([actorId])
+  @@map("eventos_auditoria")
+}

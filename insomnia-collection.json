@@ -1,0 +1,1875 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-10-27T11:38:00.000Z",
+  "__export_source": "insomnia.desktop.app:v10.0.0",
+  "resources": [
+    {
+      "_id": "wrk_greencode_av2",
+      "parentId": null,
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "GreenCode AV2 — API RESTful Logística Reversa",
+      "description": "Coleção completa da API GreenCode AV2: Autenticação JWT (4 perfis RBAC) e CRUD completo das 7 entidades (Usuários, Organizações/Empresas, Contratos, Lotes, Equipamentos/Estoque, Movimentações e Eventos de Auditoria SHA-256).",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_greencode_base",
+      "parentId": "wrk_greencode_av2",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000",
+        "token": "{% response 'body', 'req_auth_login_admin', 'b64::JC50b2tlbg==::46b', 'when-expired', 1500 %}",
+        "user_id": "{% response 'body', 'req_users_create', 'b64::JC5pZA==::46b', 'never', 60 %}",
+        "organization_id": "{% response 'body', 'req_orgs_create', 'b64::JC5pZA==::46b', 'never', 60 %}",
+        "contract_id": "{% response 'body', 'req_contracts_create', 'b64::JC5pZA==::46b', 'never', 60 %}",
+        "lot_id": "{% response 'body', 'req_lots_create', 'b64::JC5pZA==::46b', 'never', 60 %}",
+        "equipment_id": "{% response 'body', 'req_equipments_create', 'b64::JC5pZA==::46b', 'never', 60 %}",
+        "movement_id": "{% response 'body', 'req_movements_create', 'b64::JC5pZA==::46b', 'never', 60 %}",
+        "audit_event_id": "{% response 'body', 'req_audit_create', 'b64::JC5pZA==::46b', 'never', 60 %}"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url",
+          "token",
+          "user_id",
+          "organization_id",
+          "contract_id",
+          "lot_id",
+          "equipment_id",
+          "movement_id",
+          "audit_event_id"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_sub_admin",
+      "parentId": "env_greencode_base",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "1. Perfil ADMINISTRADOR (Auto-Token)",
+      "data": {
+        "token": "{% response 'body', 'req_auth_login_admin', 'b64::JC50b2tlbg==::46b', 'when-expired', 1500 %}"
+      },
+      "dataPropertyOrder": {
+        "&": ["token"]
+      },
+      "color": "#2ecc71",
+      "isPrivate": false,
+      "metaSortKey": 10,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_sub_operador",
+      "parentId": "env_greencode_base",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "2. Perfil OPERADOR_CADASTRO (Auto-Token)",
+      "data": {
+        "token": "{% response 'body', 'req_auth_login_operador', 'b64::JC50b2tlbg==::46b', 'when-expired', 1500 %}"
+      },
+      "dataPropertyOrder": {
+        "&": ["token"]
+      },
+      "color": "#3498db",
+      "isPrivate": false,
+      "metaSortKey": 20,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_sub_almoxarife",
+      "parentId": "env_greencode_base",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "3. Perfil ALMOXARIFE (Auto-Token)",
+      "data": {
+        "token": "{% response 'body', 'req_auth_login_almoxarife', 'b64::JC50b2tlbg==::46b', 'when-expired', 1500 %}"
+      },
+      "dataPropertyOrder": {
+        "&": ["token"]
+      },
+      "color": "#f39c12",
+      "isPrivate": false,
+      "metaSortKey": 30,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_sub_auditor",
+      "parentId": "env_greencode_base",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "4. Perfil AUDITOR (Auto-Token)",
+      "data": {
+        "token": "{% response 'body', 'req_auth_login_auditor', 'b64::JC50b2tlbg==::46b', 'when-expired', 1500 %}"
+      },
+      "dataPropertyOrder": {
+        "&": ["token"]
+      },
+      "color": "#9b59b6",
+      "isPrivate": false,
+      "metaSortKey": 40,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_sub_manual",
+      "parentId": "env_greencode_base",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "5. Manual (Colar Token e IDs)",
+      "data": {
+        "base_url": "http://localhost:3000",
+        "token": "COLE_SEU_TOKEN_AQUI",
+        "user_id": "COLE_ID_USUARIO",
+        "organization_id": "COLE_ID_ORGANIZACAO",
+        "contract_id": "COLE_ID_CONTRATO",
+        "lot_id": "COLE_ID_LOTE",
+        "equipment_id": "COLE_ID_EQUIPAMENTO",
+        "movement_id": "COLE_ID_MOVIMENTACAO",
+        "audit_event_id": "COLE_ID_EVENTO_AUDITORIA"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url",
+          "token",
+          "user_id",
+          "organization_id",
+          "contract_id",
+          "lot_id",
+          "equipment_id",
+          "movement_id",
+          "audit_event_id"
+        ]
+      },
+      "color": "#95a5a6",
+      "isPrivate": false,
+      "metaSortKey": 50,
+      "_type": "environment"
+    },
+    {
+      "_id": "fld_00_auth",
+      "parentId": "wrk_greencode_av2",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "0. Saúde & Autenticação (JWT)",
+      "description": "Rotas públicas de Health Check, OpenAPI, Bootstrap e Login JWT para os 4 perfis RBAC.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 100,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_health",
+      "parentId": "fld_00_auth",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/health",
+      "name": "Health Check",
+      "description": "Verifica saúde do servidor HTTP e conectividade com o banco SQLite.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 10,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_openapi_json",
+      "parentId": "fld_00_auth",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/docs/json",
+      "name": "Especificação OpenAPI 3.0 (JSON)",
+      "description": "Retorna o documento JSON OpenAPI 3.0 gerado pelo @fastify/swagger.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 20,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_bootstrap",
+      "parentId": "fld_00_auth",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/auth/bootstrap",
+      "name": "Bootstrap do 1º Admin (Banco Vazio)",
+      "description": "Provisiona o primeiro ADMINISTRADOR caso a tabela de usuários esteja vazia (retorna 409 se o seed já foi executado).",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Administrador Inicial\",\n  \"username\": \"admin\",\n  \"email\": \"admin@greencode.com.br\",\n  \"password\": \"admin123\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 30,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_login_admin",
+      "parentId": "fld_00_auth",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/auth/login",
+      "name": "Login — ADMINISTRADOR (admin)",
+      "description": "Autentica como ADMINISTRADOR (acesso total às 7 entidades).",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 40,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_login_operador",
+      "parentId": "fld_00_auth",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/auth/login",
+      "name": "Login — OPERADOR_CADASTRO (operador)",
+      "description": "Autentica como OPERADOR_CADASTRO (CRUD de Organizações e Contratos + leitura operacional).",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"username\": \"operador\",\n  \"password\": \"operador123\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 50,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_login_almoxarife",
+      "parentId": "fld_00_auth",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/auth/login",
+      "name": "Login — ALMOXARIFE (almoxarife)",
+      "description": "Autentica como ALMOXARIFE (CRUD de Estoque: Lotes, Equipamentos e Movimentações).",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"username\": \"almoxarife\",\n  \"password\": \"almox123\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 60,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_login_auditor",
+      "parentId": "fld_00_auth",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/auth/login",
+      "name": "Login — AUDITOR (auditor)",
+      "description": "Autentica como AUDITOR (leitura global, histórico e verificação criptográfica SHA-256).",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"username\": \"auditor\",\n  \"password\": \"auditor123\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 70,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_auth_me",
+      "parentId": "fld_00_auth",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/auth/me",
+      "name": "Meu Perfil Autenticado (/me)",
+      "description": "Retorna os dados do usuário autenticado pelo token JWT atual.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 80,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_01_users",
+      "parentId": "wrk_greencode_av2",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "1. Usuários (/api/users)",
+      "description": "CRUD completo de Usuários com RBAC e Versionamento Otimista.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 200,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_users_create",
+      "parentId": "fld_01_users",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/users",
+      "name": "Criar Usuário",
+      "description": "Cria um novo usuário no sistema (requer perfil ADMINISTRADOR).",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Roberto Almoxarife Turno Noite\",\n  \"username\": \"roberto.almox\",\n  \"email\": \"roberto@greencode.com.br\",\n  \"password\": \"senha123\",\n  \"role\": \"ALMOXARIFE\",\n  \"active\": true\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 10,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_users_list",
+      "parentId": "fld_01_users",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/users",
+      "name": "Listar Usuários",
+      "description": "Lista usuários cadastrados (ative os filtros opcionais na aba Params se desejar).",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_u_role",
+          "name": "role",
+          "value": "ALMOXARIFE",
+          "description": "ADMINISTRADOR | OPERADOR_CADASTRO | ALMOXARIFE | AUDITOR",
+          "disabled": true
+        },
+        {
+          "id": "pair_u_active",
+          "name": "active",
+          "value": "true",
+          "description": "true | false",
+          "disabled": true
+        },
+        {
+          "id": "pair_u_search",
+          "name": "search",
+          "value": "roberto",
+          "description": "Busca textual por nome/username/email",
+          "disabled": true
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 20,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_users_get",
+      "parentId": "fld_01_users",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/users/{{ _.user_id }}",
+      "name": "Buscar Usuário por ID",
+      "description": "Busca os detalhes de um usuário específico pelo ID.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 30,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_users_update",
+      "parentId": "fld_01_users",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/users/{{ _.user_id }}",
+      "name": "Atualizar Usuário",
+      "description": "Atualiza dados do usuário com suporte a versionamento otimista (version).",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Roberto Almoxarife Sênior\",\n  \"active\": true,\n  \"version\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 40,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_users_delete",
+      "parentId": "fld_01_users",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/users/{{ _.user_id }}",
+      "name": "Excluir Usuário",
+      "description": "Remove usuário sem vínculos históricos (ADMINISTRADOR).",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 50,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_02_orgs",
+      "parentId": "wrk_greencode_av2",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "2. Empresas / Organizações (/api/organizations)",
+      "description": "CRUD completo de Empresas/Organizações geradoras com validação algorítmica de CNPJ e resumo financeiro.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 300,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_orgs_create",
+      "parentId": "fld_02_orgs",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/organizations",
+      "name": "Criar Empresa / Organização",
+      "description": "Cadastra uma nova empresa/organização validando os dígitos verificadores do CNPJ.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Rede Varejo Sustentável S.A.\",\n  \"cnpj\": \"33.000.167/0001-01\",\n  \"type\": \"EMPRESA_PRIVADA\",\n  \"phone\": \"(11) 4002-8922\",\n  \"email\": \"esg@varejosustentavel.com.br\",\n  \"address\": \"Av. das Nações Unidas, 12901 - São Paulo/SP\",\n  \"active\": true\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 10,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_orgs_list",
+      "parentId": "fld_02_orgs",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/organizations",
+      "name": "Listar Empresas / Organizações",
+      "description": "Lista organizações com contrato opcional e contagem de lotes/equipamentos.",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_o_active",
+          "name": "active",
+          "value": "true",
+          "description": "true | false",
+          "disabled": true
+        },
+        {
+          "id": "pair_o_type",
+          "name": "type",
+          "value": "EMPRESA_PRIVADA",
+          "description": "EMPRESA_PRIVADA | HOSPITAL | UNIVERSIDADE | ONG | ORGAO_PUBLICO",
+          "disabled": true
+        },
+        {
+          "id": "pair_o_search",
+          "name": "search",
+          "value": "Varejo",
+          "description": "Busca por nome ou CNPJ",
+          "disabled": true
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 20,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_orgs_get",
+      "parentId": "fld_02_orgs",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/organizations/{{ _.organization_id }}",
+      "name": "Buscar Empresa por ID",
+      "description": "Obtém detalhes completos de uma organização pelo ID.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 30,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_orgs_fin_summary",
+      "parentId": "fld_02_orgs",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/organizations/{{ _.organization_id }}/financial-summary",
+      "name": "Resumo Financeiro da Empresa",
+      "description": "Calcula a consolidação financeira dos equipamentos em estoque e do contrato da organização.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 35,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_orgs_update",
+      "parentId": "fld_02_orgs",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/organizations/{{ _.organization_id }}",
+      "name": "Atualizar Empresa / Organização",
+      "description": "Atualiza dados cadastrais da organização com controle de versão otimista.",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"phone\": \"(11) 3090-1122\",\n  \"address\": \"Av. das Nações Unidas, 14000 - Torre Sul - São Paulo/SP\",\n  \"version\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 40,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_orgs_delete",
+      "parentId": "fld_02_orgs",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/organizations/{{ _.organization_id }}",
+      "name": "Excluir Empresa / Organização",
+      "description": "Exclui uma organização que não possua contratos, lotes ou equipamentos vinculados.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 50,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_03_contracts",
+      "parentId": "wrk_greencode_av2",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "3. Contratos (/api/contracts)",
+      "description": "CRUD completo de Contratos 1:1 com cláusulas JSON e recálculo financeiro automático.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 400,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_contracts_create",
+      "parentId": "fld_03_contracts",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/contracts",
+      "name": "Criar Contrato",
+      "description": "Cria contrato de coleta vinculado 1:1 a uma organização.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"organizationId\": \"{{ _.organization_id }}\",\n  \"contractNumber\": \"CTR-2026-0099\",\n  \"startDate\": \"2026-02-01T00:00:00.000Z\",\n  \"endDate\": \"2027-02-01T00:00:00.000Z\",\n  \"status\": \"ATIVO\",\n  \"collectionFrequency\": \"MENSAL\",\n  \"taxRate\": 10,\n  \"depreciationRate\": 15,\n  \"estimatedMonthlyValue\": 25000,\n  \"clauses\": {\n    \"pnrsCompliance\": true,\n    \"slaHoursCollection\": 36,\n    \"dataWipeStandard\": \"NIST-800-88\",\n    \"environmentalBonus\": true\n  },\n  \"notes\": \"Contrato corporativo com cláusulas JSON e rateio de recicláveis.\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 10,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_contracts_list",
+      "parentId": "fld_03_contracts",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/contracts",
+      "name": "Listar Contratos",
+      "description": "Lista contratos cadastrados.",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_c_org",
+          "name": "organizationId",
+          "value": "{{ _.organization_id }}",
+          "description": "Filtra contratos por organização",
+          "disabled": true
+        },
+        {
+          "id": "pair_c_status",
+          "name": "status",
+          "value": "ATIVO",
+          "description": "RASCUNHO | ATIVO | SUSPENSO | ENCERRADO",
+          "disabled": true
+        },
+        {
+          "id": "pair_c_search",
+          "name": "search",
+          "value": "CTR-2026",
+          "description": "Busca por número do contrato",
+          "disabled": true
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 20,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_contracts_get",
+      "parentId": "fld_03_contracts",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/contracts/{{ _.contract_id }}",
+      "name": "Buscar Contrato por ID",
+      "description": "Obtém detalhes do contrato por ID.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 30,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_contracts_update",
+      "parentId": "fld_03_contracts",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/contracts/{{ _.contract_id }}",
+      "name": "Atualizar Contrato",
+      "description": "Atualiza contrato e recalcula atomicamente a valoração financeira dos equipamentos vinculados.",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"taxRate\": 8.5,\n  \"depreciationRate\": 12,\n  \"collectionFrequency\": \"QUINZENAL\",\n  \"version\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 40,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_contracts_delete",
+      "parentId": "fld_03_contracts",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/contracts/{{ _.contract_id }}",
+      "name": "Excluir Contrato",
+      "description": "Remove contrato de uma organização.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 50,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_04_lots",
+      "parentId": "wrk_greencode_av2",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "4. Estoque: Lotes (/api/lots)",
+      "description": "CRUD completo de Lotes de entrada/saída com cadastro transacional ($transaction) de múltiplos equipamentos.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 500,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_lots_create",
+      "parentId": "fld_04_lots",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/lots",
+      "name": "Criar Lote + Equipamentos ($transaction)",
+      "description": "Cria um lote validando data de entrada e cadastra equipamentos em lote de forma atômica.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"code\": \"LOTE-2026-100\",\n  \"organizationId\": \"{{ _.organization_id }}\",\n  \"invoiceNumber\": \"NF-778899\",\n  \"carrier\": \"TransEco Logística\",\n  \"origin\": \"Centro de Distribuição Cliente\",\n  \"destination\": \"Galpão Central GreenCode - Doca 01\",\n  \"status\": \"ABERTO\",\n  \"notes\": \"Coleta programada mensal\",\n  \"newEquipments\": [\n    {\n      \"codigoBarrasInterno\": \"GC-2026-100001\",\n      \"serial\": \"SN-DELL-5510\",\n      \"category\": \"Notebook\",\n      \"brand\": \"Dell\",\n      \"model\": \"Precision 5510\",\n      \"condition\": \"OTIMO\",\n      \"location\": \"Doca 01 - Palete A\",\n      \"estimatedValue\": 5200,\n      \"notes\": \"Completo com fonte\"\n    },\n    {\n      \"codigoBarrasInterno\": \"GC-2026-100002\",\n      \"serial\": \"SN-HP-G800\",\n      \"category\": \"Desktop\",\n      \"brand\": \"HP\",\n      \"model\": \"ProDesk 600\",\n      \"condition\": \"BOM\",\n      \"location\": \"Doca 01 - Palete A\",\n      \"estimatedValue\": 2900,\n      \"notes\": \"Gabinete íntegro\"\n    }\n  ]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 10,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_lots_list",
+      "parentId": "fld_04_lots",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/lots",
+      "name": "Listar Lotes",
+      "description": "Lista lotes com equipamentos vinculados e organização associada.",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_l_org",
+          "name": "organizationId",
+          "value": "{{ _.organization_id }}",
+          "description": "Filtra por organização",
+          "disabled": true
+        },
+        {
+          "id": "pair_l_status",
+          "name": "status",
+          "value": "ABERTO",
+          "description": "ABERTO | EM_PROCESSAMENTO | FECHADO | CANCELADO",
+          "disabled": true
+        },
+        {
+          "id": "pair_l_search",
+          "name": "search",
+          "value": "LOTE-2026",
+          "description": "Busca por código ou nota fiscal",
+          "disabled": true
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 20,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_lots_get",
+      "parentId": "fld_04_lots",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/lots/{{ _.lot_id }}",
+      "name": "Buscar Lote por ID",
+      "description": "Obtém detalhes completos do lote por ID.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 30,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_lots_update",
+      "parentId": "fld_04_lots",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/lots/{{ _.lot_id }}",
+      "name": "Atualizar Lote",
+      "description": "Atualiza lote com controle de versão otimista.",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"EM_PROCESSAMENTO\",\n  \"destination\": \"Setor de Triagem Técnica\",\n  \"version\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 40,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_lots_delete",
+      "parentId": "fld_04_lots",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/lots/{{ _.lot_id }}",
+      "name": "Excluir Lote",
+      "description": "Remove lote desassociando equipamentos vinculados.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 50,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_05_equipments",
+      "parentId": "wrk_greencode_av2",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "5. Estoque: Equipamentos (/api/equipments)",
+      "description": "CRUD completo de Equipamentos em estoque + transições logísticas, estado físico, valoração e histórico.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 600,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_equipments_create",
+      "parentId": "fld_05_equipments",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/equipments",
+      "name": "Cadastrar Equipamento no Estoque",
+      "description": "Cadastra equipamento com codigoBarrasInterno único, cálculo automático de depreciação e registro de recebimento.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"organizationId\": \"{{ _.organization_id }}\",\n  \"lotId\": \"{{ _.lot_id }}\",\n  \"codigoBarrasInterno\": \"GC-2026-900001\",\n  \"serial\": \"SN-MAC-M1-009\",\n  \"category\": \"Notebook\",\n  \"brand\": \"Apple\",\n  \"model\": \"MacBook Pro 14\",\n  \"condition\": \"OTIMO\",\n  \"location\": \"Recebimento Cofre R2\",\n  \"estimatedValue\": 8500,\n  \"notes\": \"Recebido para descaracterização corporativa\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 10,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_equipments_list",
+      "parentId": "fld_05_equipments",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/equipments",
+      "name": "Consultar Estoque (Listar Equipamentos)",
+      "description": "Lista equipamentos em estoque com filtros operacionais opcionais na aba Params.",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_e_org",
+          "name": "organizationId",
+          "value": "{{ _.organization_id }}",
+          "description": "Filtra por empresa/organização",
+          "disabled": true
+        },
+        {
+          "id": "pair_e_lot",
+          "name": "lotId",
+          "value": "{{ _.lot_id }}",
+          "description": "Filtra por lote",
+          "disabled": true
+        },
+        {
+          "id": "pair_e_status",
+          "name": "status",
+          "value": "RECEBIDO",
+          "description": "RECEBIDO | EM_TRIAGEM | AGUARDANDO_COMPONENTES | EM_REPARO | RECONDICIONADO | DESCARTADO | DOADO | VENDIDO",
+          "disabled": true
+        },
+        {
+          "id": "pair_e_condition",
+          "name": "condition",
+          "value": "OTIMO",
+          "description": "NOVO | OTIMO | BOM | REGULAR | RUIM | PESSIMO | SUCATA",
+          "disabled": true
+        },
+        {
+          "id": "pair_e_category",
+          "name": "category",
+          "value": "Notebook",
+          "description": "Categoria do item",
+          "disabled": true
+        },
+        {
+          "id": "pair_e_search",
+          "name": "search",
+          "value": "GC-2026",
+          "description": "Busca por serial, código de barras, marca, modelo ou localização",
+          "disabled": true
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 20,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_equipments_get",
+      "parentId": "fld_05_equipments",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/equipments/{{ _.equipment_id }}",
+      "name": "Buscar Equipamento por ID",
+      "description": "Obtém detalhes completos do equipamento e suas movimentações.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 30,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_equipments_update",
+      "parentId": "fld_05_equipments",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/equipments/{{ _.equipment_id }}",
+      "name": "Atualizar Cadastro do Equipamento",
+      "description": "Atualiza dados gerais/localização no estoque com suporte a versionamento otimista.",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"location\": \"Prateleira B4\",\n  \"notes\": \"Etiquetado e conferido no almoxarifado\",\n  \"version\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 40,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_equipments_patch_condition",
+      "parentId": "fld_05_equipments",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/equipments/{{ _.equipment_id }}/condition",
+      "name": "Alterar Condição Física (Queda >= 2 exige nota)",
+      "description": "Altera condição física recalculando valor atual (quedas >= 2 níveis exigem justificativa em note).",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"condition\": \"RUIM\",\n  \"note\": \"Identificada oxidação interna severa na placa lógica durante inspeção.\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 50,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_equipments_patch_status_triagem",
+      "parentId": "fld_05_equipments",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/equipments/{{ _.equipment_id }}/status",
+      "name": "Alterar Status — 1º Passo: EM_TRIAGEM",
+      "description": "Envia equipamento recebido para EM_TRIAGEM gerando movimentação automaticamente.",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"EM_TRIAGEM\",\n  \"toLocation\": \"Bancada de Triagem T1\",\n  \"note\": \"Iniciando diagnóstico completo de componentes.\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 60,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_equipments_patch_status_desmonte",
+      "parentId": "fld_05_equipments",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/equipments/{{ _.equipment_id }}/status",
+      "name": "Alterar Status — 2º Passo: AGUARDANDO_COMPONENTES",
+      "description": "Avança de EM_TRIAGEM para AGUARDANDO_COMPONENTES (validado por regra de serviço e Trigger SQL).",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"AGUARDANDO_COMPONENTES\",\n  \"toLocation\": \"Setor de Desmonte / Peças\",\n  \"note\": \"Triagem concluída; encaminhado para separação de módulos.\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 70,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_equipments_valuation",
+      "parentId": "fld_05_equipments",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/equipments/{{ _.equipment_id }}/valuation",
+      "name": "Memória de Cálculo Financeiro (/valuation)",
+      "description": "Exibe o detalhamento de depreciação, fator de condição e alíquota contratual do equipamento.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 80,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_equipments_history",
+      "parentId": "fld_05_equipments",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/equipments/{{ _.equipment_id }}/history",
+      "name": "Histórico de Rastreabilidade (/history)",
+      "description": "Retorna todas as movimentações logísticas sofridas pelo equipamento.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 90,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_equipments_delete",
+      "parentId": "fld_05_equipments",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/equipments/{{ _.equipment_id }}",
+      "name": "Excluir Equipamento",
+      "description": "Exclui equipamento do cadastro.",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 100,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_06_movements",
+      "parentId": "wrk_greencode_av2",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "6. Estoque: Movimentações (/api/movements)",
+      "description": "CRUD completo de Movimentações de Estoque sincronizadas atomicamente com os equipamentos.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 700,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_movements_create",
+      "parentId": "fld_06_movements",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/movements",
+      "name": "Registrar Movimentação de Estoque",
+      "description": "Registra nova movimentação e sincroniza status/localização do equipamento em transação atômica.",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"equipmentId\": \"{{ _.equipment_id }}\",\n  \"lotId\": \"{{ _.lot_id }}\",\n  \"type\": \"REPARO\",\n  \"quantity\": 1,\n  \"note\": \"Substituição de módulo SSD e limpeza química concluídas.\",\n  \"toStatus\": \"EM_REPARO\",\n  \"toLocation\": \"Laboratório Eletrônico L1\",\n  \"financialValue\": 3100\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 10,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_movements_list",
+      "parentId": "fld_06_movements",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/movements",
+      "name": "Listar Movimentações",
+      "description": "Lista movimentações registradas no estoque.",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_m_eq",
+          "name": "equipmentId",
+          "value": "{{ _.equipment_id }}",
+          "description": "Filtra por equipamento",
+          "disabled": true
+        },
+        {
+          "id": "pair_m_lot",
+          "name": "lotId",
+          "value": "{{ _.lot_id }}",
+          "description": "Filtra por lote",
+          "disabled": true
+        },
+        {
+          "id": "pair_m_type",
+          "name": "type",
+          "value": "REPARO",
+          "description": "RECEBIMENTO | TRIAGEM | TRANSFERENCIA | REPARO | RECONDICIONAMENTO | DESCARTE | DOACAO | VENDA | AJUSTE_ESTOQUE",
+          "disabled": true
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 20,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_movements_get",
+      "parentId": "fld_06_movements",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/movements/{{ _.movement_id }}",
+      "name": "Buscar Movimentação por ID",
+      "description": "Obtém detalhes de uma movimentação específica por ID.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 30,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_movements_update",
+      "parentId": "fld_06_movements",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/movements/{{ _.movement_id }}",
+      "name": "Atualizar Movimentação",
+      "description": "Atualiza observações/valor financeiro da movimentação com versionamento otimista.",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"note\": \"Substituição de SSD NVMe 512GB homologada pelo controle de qualidade.\",\n  \"financialValue\": 3350,\n  \"version\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 40,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_movements_delete",
+      "parentId": "fld_06_movements",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/movements/{{ _.movement_id }}",
+      "name": "Excluir Movimentação (Admin)",
+      "description": "Remove registro de movimentação (exclusivo para perfil ADMINISTRADOR).",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 50,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_07_audit",
+      "parentId": "wrk_greencode_av2",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "name": "7. Auditoria SHA-256 (/api/audit-events)",
+      "description": "CRUD completo de Eventos de Auditoria + Verificação criptográfica da cadeia de hashes SHA-256.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": 800,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_audit_create",
+      "parentId": "fld_07_audit",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/audit-events",
+      "name": "Registrar Evento de Auditoria",
+      "description": "Registra evento manual na trilha encadeada por hash SHA-256 (ADMINISTRADOR).",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"action\": \"EXTERNAL_ISO14001_INSPECTION\",\n  \"entityName\": \"Organizacao\",\n  \"entityId\": \"{{ _.organization_id }}\",\n  \"details\": {\n    \"auditorCompany\": \"EcoCert Brasil\",\n    \"conformity\": \"100%\",\n    \"reportCode\": \"ISO-2026-884\"\n  }\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 10,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_audit_list",
+      "parentId": "fld_07_audit",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/audit-events",
+      "name": "Listar Eventos de Auditoria",
+      "description": "Consulta a trilha de auditoria (ADMINISTRADOR e AUDITOR).",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_a_entity",
+          "name": "entityName",
+          "value": "Equipamento",
+          "description": "Usuario | Organizacao | Contrato | Lote | Equipamento | Movimentacao",
+          "disabled": true
+        },
+        {
+          "id": "pair_a_action",
+          "name": "action",
+          "value": "EQUIPMENT_CREATED",
+          "description": "Filtra por tipo de ação",
+          "disabled": true
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 20,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_audit_verify",
+      "parentId": "fld_07_audit",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/audit-events/verify",
+      "name": "Verificar Integridade SHA-256 (/verify)",
+      "description": "Recalcula e valida todos os elos criptográficos SHA-256 da trilha de auditoria.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 25,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_audit_get",
+      "parentId": "fld_07_audit",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/audit-events/{{ _.audit_event_id }}",
+      "name": "Buscar Evento de Auditoria por ID",
+      "description": "Obtém detalhes de um evento de auditoria por ID.",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 30,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_audit_update",
+      "parentId": "fld_07_audit",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/audit-events/{{ _.audit_event_id }}",
+      "name": "Atualizar Evento de Auditoria",
+      "description": "Atualiza evento de auditoria recomputando os hashes da cadeia (ADMINISTRADOR).",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"details\": {\n    \"auditorCompany\": \"EcoCert Brasil\",\n    \"conformity\": \"100%\",\n    \"reportCode\": \"ISO-2026-884-REV2\"\n  },\n  \"version\": 1\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 40,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_audit_delete",
+      "parentId": "fld_07_audit",
+      "modified": 1761565080000,
+      "created": 1761565080000,
+      "url": "{{ _.base_url }}/api/audit-events/{{ _.audit_event_id }}",
+      "name": "Excluir Evento de Auditoria",
+      "description": "Remove evento de auditoria recomputando a cadeia de hashes (ADMINISTRADOR).",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.token }}"
+      },
+      "metaSortKey": 50,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    }
+  ]
+}

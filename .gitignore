@@ -1,1 +1,8 @@
 node_modules/
+dist/
+.env
+prisma/*.db
+prisma/*.db-journal
+prisma/*.db-wal
+prisma/*.db-shm
+data_test/

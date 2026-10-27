@@ -1,0 +1,156 @@
+ntrodução
+Imagine que você é um(a) empreendedor(a) e foi participar de uma convenção com
+várias pessoas multiespecializadas. Durante as conversas, você recebeu a seguinte
+proposta de um dos participantes: desenvolver um sistema de gestão para uma startup
+que atua como intermediária entre grandes geradores de resíduos eletrônicos.
+A explicação da proposta segue como: caro empreendedor(a), permita-me compartilhar
+a origem da ideia que ora lhe apresento e que servirá de alicerce para o sistema que
+você desenvolverá ao longo das próximas etapas de desenvolvimento. Esta narrativa
+não nasceu de um devaneio abstrato, mas de uma constatação que venho
+amadurecendo ao longo de minha trajetória acadêmica e profissional, observando as
+interseções entre tecnologia, comportamento humano e fluxos econômicos. Em minhas
+consultorias a pequenas e médias empresas, deparei-me repetidamente com um
+paradoxo: enquanto o mundo digital avança em velocidade exponencial, a gestão física
+de ativos que perdem valor rapidamente permanece ancorada em métodos artesanais
+e desconectados. Foi precisamente essa dissonância que despertou minha atenção
+para o setor de equipamentos de informática e telecomunicações, um mercado que
+movimenta bilhões de reais anualmente, mas que descarta toneladas de componentes
+perfeitamente recuperáveis em aterros sanitários, por pura falta de rastreabilidade e de
+incentivos econômicos claros.
+Ao mergulhar nos dados setoriais, descobri que uma única empresa de médio porte no
+setor bancário substitui, em média, quarenta por cento de sua frota de terminais de
+computador a cada dezoito meses. Esse ciclo de obsolescência programada, embora
+compreensível do ponto de vista da competitividade tecnológica, gera um passivo
+ambiental e financeiro significativo, pois os custos de descarte regulamentar e a perda
+de materiais nobres como ouro, cobre e terras raras são simplesmente ignorados na
+contabilidade tradicional. Foi então que visualizei uma oportunidade: e se pudéssemos
+criar um sistema que não apenas catalogasse esse fluxo de equipamentos obsoletos,
+mas que também conectasse os detentores desses ativos a uma cadeia de recuperação
+de valor, transformando um problema logístico em uma fonte de receita recorrente?
+Essa pergunta tornou-se a semente do empreendimento que proponho.
+A beleza do cenário reside em sua complexidade inerente, que é exatamente o que
+torna o desafio estimulante para um programador com a tua experiência. Pense, por um
+instante, na diversidade de entidades envolvidas. De um lado, temos as organizações
+geradoras, que podem ser desde uma rede de lojas de varejo até um hospital ou uma
+universidade pública, cada qual com suas políticas internas de substituição de
+equipamentos e seus prazos de armazenamento. De outro, temos os operadores
+logísticos, que precisam coletar, transportar e armazenar esses materiais em condições
+controladas. Há ainda os especialistas em desmontagem, que devem classificar cada
+placa, cada fonte de alimentação e cada cabo conforme seu potencial de reutilização,
+reciclagem ou descarte seguro. E, por fim, há o mercado comprador de matérias-primas
+secundárias, cujas cotações flutuam diariamente conforme a oferta e demanda globais.
+Cada um desses atores possui atributos, comportamentos e regras de negócio distintas,
+e todos precisam interagir por meio de um sistema coeso, confiável e auditável.
+Mas o que torna essa ideia verdadeiramente fascinante para um empreendedor(a) como
+você é o modelo de geração de valor que ela permite. Diferentemente de uma simples
+plataforma de compra e venda, o sistema que idealizamos funciona como um
+orquestrador de inteligência de mercado. Ao rastrear cada componente desde a sua
+origem até o seu destino final, você acumula dados preciosos sobre padrões de vida
+útil, causas de falha prematura e eficiência de diferentes métodos de recuperação.
+Esses dados, tratados adequadamente, podem ser transformados em relatórios de
+consultoria, em certificados de compensação ambiental negociáveis e até em insumos
+para a fabricação de novos produtos com selo de sustentabilidade. Em outras palavras,
+o sistema não apenas resolve um problema operacional, mas cria uma base de
+conhecimento que se valoriza com o tempo, gerando receitas acessórias que protegem
+o negócio contra a sazonalidade do mercado de sucata.
+Além do mais, a oportunidade se alinha perfeitamente com as tendências regulatórias
+e comportamentais que observamos no Brasil e no mundo. A Política Nacional de
+Resíduos Sólidos, já em vigor, exige cada vez mais transparência na destinação de
+eletrônicos, e as empresas que não comprovarem a rastreabilidade estarão sujeitas a
+multas e restrições operacionais. Ao mesmo tempo, o consumidor final tornou-se mais
+consciente e exige que as marcas com as quais se relaciona apresentem
+responsabilidade socioambiental comprovada. Portanto, ao oferecer uma solução que
+atende a essas duas pressões simultaneamente, você se posiciona não como um mero
+prestador de serviços, mas como um facilitador da transformação sustentável do setor
+produtivo. Essa é a vantagem competitiva que nenhum concorrente genérico de gestão
+de estoques conseguirá replicar sem um entendimento profundo do domínio.
+Caro empreendedor(a), convido-o a enxergar este projeto não como um exercício
+acadêmico isolado, mas como o protótipo de um negócio real que pode ser escalado
+para outros segmentos, como a logística reversa de baterias de veículos elétricos, de
+painéis solares ou de dispositivos médicos. A arquitetura orientada a objetos que você
+construirá é flexível o bastante para absorver novas classes de produtos e novos atores
+sem que seja necessário reescrever o núcleo do sistema. Essa capacidade de evolução
+é, a meu ver, o maior ativo que um empreendimento tecnológico pode possuir. Portanto,
+ao longo do desenvolvimento do projeto, você não estará meramente codificando
+métodos e atributos; estará desenhando os alicerces de uma plataforma que pode
+crescer com você, que aprende com os dados que processa e que se adapta às
+mudanças do ambiente regulatório e de mercado. Essa é a jornada que começa agora,
+e tenho plena confiança de que, ao final dela, você terá em mãos não apenas um
+sistema funcional, mas uma visão clara do negócio que pode construir a partir dele.
+Atividade:
+Após uma análise detalhada da conversa, você empreendedor(a) aceitou a proposta.
+A partir deste momento, um plano foi traçado e está baseado nas seguintes ideias:
+A primeira atividade consistirá no desenvolvimento de um sistema de linha de comando
+(CLI) denominado greencode, que servirá como o núcleo operacional da plataforma de
+logística reversa. Este sistema não será um mero cadastrador elementar, mas sim uma
+aplicação robusta que incorpora camadas de segurança, validação rigorosa,
+gerenciamento de estado e auditoria de operações. A decisão de utilizar Node.js com
+TypeScript justifica-se pela necessidade de tipagem estática, que reduz
+significativamente erros em tempo de execução e facilita a manutenção do código à
+medida que o domínio se expande. A persistência em arquivos de texto, embora
+aparentemente modesta, será implementada com um mecanismo de journaling, de
+modo que cada transação seja registrada em um log imutável antes de ser aplicada ao
+estado corrente, garantindo rastreabilidade e possibilidade de recuperação em caso de
+falhas.
+O fluxo de operações do greencode foi concebido para atender a quatro papéis
+funcionais distintos, que podem ser exercidos por diferentes usuários ou por um único
+usuário com privilégios elevados. O primeiro papel é o de administrador do sistema,
+responsável pela gestão de contas de acesso e pela configuração de parâmetros
+globais, como alíquotas de impostos e coeficientes de depreciação de equipamentos.
+O segundo papel é o de operador de cadastro, que insere novas organizações clientes
+e seus respectivos contratos de coleta. O terceiro papel é o de gestor de almoxarifado,
+que registra a chegada de lotes, a triagem de equipamentos e a alocação de códigos
+de barras internos. O quarto papel é o de auditor, que possui permissão apenas para
+consultar históricos e gerar relatórios, sem qualquer capacidade de alteração. Essa
+segregação de responsabilidades exige um sistema de autenticação baseado em
+credenciais criptografadas, com senhas armazenadas em arquivo separado utilizando
+hash com algoritmo SHA-256, e com expiração de sessão após trinta minutos de
+inatividade.
+A modelagem de classes, apresentada a seguir em UML, reflete essa complexidade e
+introduz conceitos como herança, interfaces e polimorfismo. O diagrama contempla
+também classes abstratas para validação de dados e fábricas para criação de objetos
+compostos.
+Os requisitos funcionais para esta primeira atividade são detalhados e exigem uma
+implementação cuidadosa. O sistema deve, no momento da inicialização, verificar a
+existência de um arquivo de configuração mestre que contém a chave de criptografia
+mestra e o cadastro do primeiro administrador. Caso esse arquivo não exista, o sistema
+deve entrar em modo de provisionamento inicial, solicitando ao operador que defina a
+senha do administrador e gerando automaticamente a chave criptográfica. Todos os
+arquivos de persistência, incluindo os de credenciais, organizações, lotes,
+equipamentos e movimentações, devem ser gravados com criptografia simétrica AES256. As operações de leitura e escrita devem ser atômicas, utilizando arquivos
+temporários e renomeação para evitar corrupção de dados em caso de interrupção
+brusca.
+As validações de negócio incluem, mas não se limitam a: verificação de unicidade do
+CNPJ com dígitos verificadores calculados conforme legislação brasileira; impedimento
+de cadastro de lotes com data de entrada futura ou anterior a mais de noventa dias;
+restrição de que um equipamento só pode ser movimentado para o status de desmonte
+após passar por triagem completa; e obrigatoriedade de justificativa textual sempre que
+um equipamento tiver seu estado físico alterado para duas categorias abaixo do estado
+anterior. Além disso, o sistema deve implementar uma política de retenção de logs,
+mantendo o journal de transações por no mínimo cento e oitenta dias e realizando a
+rotação automática do arquivo de journal quando este ultrapassar o tamanho de dez
+megabytes.
+A interface de linha de comando, embora textual, deve ser intuitiva e oferecer auto
+completação para comandos comuns, utilizando a biblioteca readline com a extensão
+de histórico persistente entre sessões. O menu principal deve se adaptar dinamicamente
+ao papel do usuário autenticado, ocultando opções para as quais ele não possui
+permissão. Cada comando deve aceitar parâmetros posicionais e opcionais, seguindo
+a convenção de que o primeiro argumento é a ação principal, e os subsequentes são os
+identificadores ou dados necessários. Por exemplo, o comando "lote criar --org BR001
+--nf 123456 --transp TransRapida" deve criar um novo lote para a organização
+identificada por BR001, associando a nota fiscal e a transportadora informadas. O
+sistema deve fornecer feedback imediato após cada operação, com mensagens de
+sucesso ou erro devidamente categorizadas por níveis de severidade.
+O empreendedor, ao aceitar este desafio, compromete-se a entregar não apenas o
+código funcional, mas também um conjunto de scripts de teste que simulam uma jornada
+completa de usuário, desde o provisionamento inicial até a consulta de rastreabilidade
+de um equipamento específico após múltiplas movimentações. Ele deverá também
+documentar a arquitetura de segurança adotada, justificando a escolha do algoritmo de
+criptografia, do esquema de hashing de senhas e da política de expiração de sessões,
+bem como descrever os cenários de falha testados e as respectivas respostas do
+sistema. Essa documentação será avaliada sob a perspectiva da robustez e da
+capacidade de evolução do sistema para as próximas atividades, que incluirão a
+integração com uma interface web e a migração para um banco de dados relacional.
+Por fim, para que o sistema possa ser comercializado com facilidade ele de ser
+compatível com as plataformas Windows 10 ou superior, Linux Ubuntu 24.04.03 ou
+superior e distribuições Linux derivadas do Ubuntu
