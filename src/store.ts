@@ -82,7 +82,7 @@ export class PersistenceService {
       data
     });
     const encrypted = CryptoService.encrypt(entry, this.key);
-    fs.appendFileSync(journalPath, encrypted + '\\n', 'utf8');
+    fs.appendFileSync(journalPath, encrypted + '\n', 'utf8');
   }
 
   private cleanupOldLogs(): void {

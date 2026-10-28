@@ -112,7 +112,7 @@ export class AuditEventService {
     );
   }
 
-  private async rebuildHashChain(tx: DbClient): Promise<void> {
+  async rebuildHashChain(tx: DbClient = prisma): Promise<void> {
     const allEvents = await tx.eventoAuditoria.findMany({
       orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
     });
@@ -190,9 +190,21 @@ export class AuditEventService {
         throw new NotFoundError('Evento de auditoria não encontrado.');
       }
 
-      const nextAction = input.action?.trim() ?? existing.action;
-      const nextEntityName = input.entityName?.trim() ?? existing.entityName;
-      const nextEntityId = input.entityId?.trim() ?? existing.entityId;
+      if (input.action !== undefined && !input.action.trim()) {
+        throw new ValidationError('O campo action não pode ser vazio.');
+      }
+      if (input.entityName !== undefined && !input.entityName.trim()) {
+        throw new ValidationError('O campo entityName não pode ser vazio.');
+      }
+      if (input.entityId !== undefined && !input.entityId.trim()) {
+        throw new ValidationError('O campo entityId não pode ser vazio.');
+      }
+
+      const nextAction = input.action !== undefined ? input.action.trim() : existing.action;
+      const nextEntityName =
+        input.entityName !== undefined ? input.entityName.trim() : existing.entityName;
+      const nextEntityId =
+        input.entityId !== undefined ? input.entityId.trim() : existing.entityId;
       const nextDetails = (
         input.details !== undefined ? sortKeysDeep(input.details) : existing.details
       ) as Prisma.InputJsonValue;

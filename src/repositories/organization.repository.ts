@@ -55,9 +55,11 @@ export class OrganizationRepository {
     if (filters.active !== undefined) where.active = filters.active;
     if (filters.type) where.type = filters.type;
     if (filters.search) {
+      const digits = filters.search.replace(/\D/g, '');
       where.OR = [
         { name: { contains: filters.search } },
         { cnpj: { contains: filters.search } },
+        ...(digits ? [{ cnpj: { contains: digits } }] : []),
         { email: { contains: filters.search } },
       ];
     }

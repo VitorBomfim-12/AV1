@@ -278,7 +278,7 @@ export class EquipmentService {
         targetCondition = EquipmentDomainValidator.validateConditionTransition(
           existing.condition,
           input.condition,
-          input.justification
+          justificationText
         );
         updateData.condition = targetCondition;
       }
@@ -321,11 +321,26 @@ export class EquipmentService {
         }
       }
 
-      if (input.serial !== undefined) updateData.serial = input.serial.trim();
-      if (input.category !== undefined) updateData.category = input.category.trim();
-      if (input.brand !== undefined) updateData.brand = input.brand.trim();
-      if (input.model !== undefined) updateData.model = input.model.trim();
-      if (input.location !== undefined) updateData.location = input.location.trim();
+      if (input.serial !== undefined) {
+        if (!input.serial.trim()) throw new ValidationError('O número de série (serial) não pode ser vazio.');
+        updateData.serial = input.serial.trim();
+      }
+      if (input.category !== undefined) {
+        if (!input.category.trim()) throw new ValidationError('A categoria (category) não pode ser vazia.');
+        updateData.category = input.category.trim();
+      }
+      if (input.brand !== undefined) {
+        if (!input.brand.trim()) throw new ValidationError('A marca (brand) não pode ser vazia.');
+        updateData.brand = input.brand.trim();
+      }
+      if (input.model !== undefined) {
+        if (!input.model.trim()) throw new ValidationError('O modelo (model) não pode ser vazio.');
+        updateData.model = input.model.trim();
+      }
+      if (input.location !== undefined) {
+        if (!input.location.trim()) throw new ValidationError('A localização (location) não pode ser vazia.');
+        updateData.location = input.location.trim();
+      }
       if (input.notes !== undefined) updateData.notes = input.notes;
 
       const targetEstimated =

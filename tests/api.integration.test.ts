@@ -18,7 +18,11 @@ const TEST_DB_FILES = [
 function cleanupTestDbFiles() {
   for (const file of TEST_DB_FILES) {
     if (fs.existsSync(file)) {
-      fs.rmSync(file, { force: true });
+      try {
+        fs.rmSync(file, { force: true, maxRetries: 5, retryDelay: 100 });
+      } catch {
+        // Ignora bloqueio temporário de descritor SQLite no Windows NTFS
+      }
     }
   }
 }
@@ -237,12 +241,29 @@ async function runTests() {
     });
     assert.equal(staleUserUpdate.statusCode, 409);
 
+    // Login do tempuser gera EventoAuditoria com actorId = tempUserId;
+    // ao excluir tempuser (ON DELETE SET NULL), a cadeia SHA-256 deve permanecer íntegra
+    const tempLogin = await app.inject({
+      method: 'POST',
+      url: '/api/auth/login',
+      payload: { username: 'tempuser', password: 'password123' },
+    });
+    assert.equal(tempLogin.statusCode, 200);
+
     const deleteTempUser = await app.inject({
       method: 'DELETE',
       url: `/api/users/${tempUserId}`,
       headers: authHeader(adminToken),
     });
     assert.equal(deleteTempUser.statusCode, 204);
+
+    const verifyAfterUserDelete = await app.inject({
+      method: 'GET',
+      url: '/api/audit-events/verify',
+      headers: authHeader(auditorToken),
+    });
+    assert.equal(verifyAfterUserDelete.statusCode, 200);
+    assert.equal(verifyAfterUserDelete.json().valid, true);
 
     // -------------------------------------------------------------
     // 4. CRUD COMPLETO DE ORGANIZACAO + VALIDACAO CNPJ

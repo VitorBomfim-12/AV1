@@ -188,9 +188,10 @@ export class UserService {
         throw new NotFoundError('Usuário não encontrado.');
       }
 
-      const [lotsCount, movementsCount] = await Promise.all([
+      const [lotsCount, movementsCount, auditEventsCount] = await Promise.all([
         tx.lote.count({ where: { createdById: id } }),
         tx.movimentacao.count({ where: { actorId: id } }),
+        tx.eventoAuditoria.count({ where: { actorId: id } }),
       ]);
 
       if (lotsCount > 0 || movementsCount > 0) {
@@ -200,6 +201,9 @@ export class UserService {
       }
 
       await this.userRepo.delete(id, tx);
+      if (auditEventsCount > 0) {
+        await this.auditService.rebuildHashChain(tx);
+      }
       await this.auditService.record(
         actor.id,
         'DELETE_USER',

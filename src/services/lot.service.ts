@@ -138,7 +138,12 @@ export class LotService {
             );
           }
 
-          await this.equipRepo.update(eq.id, { lotId: lot.id }, undefined, tx);
+          await this.equipRepo.update(
+            eq.id,
+            { lotId: lot.id, location: input.destination.trim() },
+            undefined,
+            tx
+          );
           await this.movementRepo.create(
             {
               equipmentId: eq.id,
@@ -149,6 +154,8 @@ export class LotService {
               note: `Inclusão no lote ${lot.code}`,
               fromStatus: eq.status,
               toStatus: eq.status,
+              fromCondition: eq.condition,
+              toCondition: eq.condition,
               fromLocation: eq.location,
               toLocation: input.destination.trim(),
             },
@@ -163,6 +170,17 @@ export class LotService {
         const activeContract = contract && contract.status === ContractStatus.ATIVO ? contract : null;
 
         for (const item of input.newEquipments) {
+          if (
+            !item.serial?.trim() ||
+            !item.category?.trim() ||
+            !item.brand?.trim() ||
+            !item.model?.trim() ||
+            !item.location?.trim()
+          ) {
+            throw new ValidationError(
+              'Campos obrigatórios para cada equipamento do lote: serial, category, brand, model, condition, location.'
+            );
+          }
           const condition = EquipmentDomainValidator.ensureValidCondition(item.condition);
           const barcode = item.codigoBarrasInterno?.trim() || FinancialCalculator.generateInternalBarcode();
 
@@ -292,8 +310,14 @@ export class LotService {
       if (input.carrier !== undefined) {
         updateData.carrier = input.carrier ? input.carrier.trim() : null;
       }
-      if (input.origin !== undefined) updateData.origin = input.origin.trim();
-      if (input.destination !== undefined) updateData.destination = input.destination.trim();
+      if (input.origin !== undefined) {
+        if (!input.origin.trim()) throw new ValidationError('A origem (origin) do lote não pode ser vazia.');
+        updateData.origin = input.origin.trim();
+      }
+      if (input.destination !== undefined) {
+        if (!input.destination.trim()) throw new ValidationError('O destino (destination) do lote não pode ser vazio.');
+        updateData.destination = input.destination.trim();
+      }
       if (input.notes !== undefined) updateData.notes = input.notes;
 
       const updated = await this.lotRepo.update(id, updateData, input.version, tx);

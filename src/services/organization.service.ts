@@ -141,10 +141,22 @@ export class OrganizationService {
         }
       }
 
-      if (input.type !== undefined) updateData.type = input.type.trim();
-      if (input.phone !== undefined) updateData.phone = input.phone.trim();
-      if (input.email !== undefined) updateData.email = input.email.trim();
-      if (input.address !== undefined) updateData.address = input.address.trim();
+      if (input.type !== undefined) {
+        if (!input.type.trim()) throw new ValidationError('O tipo da organização não pode ser vazio.');
+        updateData.type = input.type.trim();
+      }
+      if (input.phone !== undefined) {
+        if (!input.phone.trim()) throw new ValidationError('O telefone da organização não pode ser vazio.');
+        updateData.phone = input.phone.trim();
+      }
+      if (input.email !== undefined) {
+        if (!input.email.trim()) throw new ValidationError('O e-mail da organização não pode ser vazio.');
+        updateData.email = input.email.trim();
+      }
+      if (input.address !== undefined) {
+        if (!input.address.trim()) throw new ValidationError('O endereço da organização não pode ser vazio.');
+        updateData.address = input.address.trim();
+      }
       if (input.active !== undefined) updateData.active = input.active;
 
       const updated = await this.orgRepo.update(id, updateData, input.version, tx);

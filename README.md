@@ -661,7 +661,9 @@ Na raiz do projeto está o arquivo [`insomnia-collection.json`](./insomnia-colle
    - **`4. Perfil AUDITOR (Auto-Token)`** *(Leitura global e Auditoria SHA-256)*
    - **`5. Manual (Colar Token e IDs)`** *(caso prefira preencher manualmente)*
 
-> **Uso manual no Insomnia:** Em todas as rotas `/api/*` (exceto `/bootstrap` e `/login`), selecione na aba **Auth** a opção **Bearer Token** e cole o `token` retornado no login. Na aba **Body**, selecione **JSON** e cole apenas os blocos abaixo.
+> **Dica rápida nos ambientes `Auto-Token`:** O token JWT é obtido automaticamente do `POST /api/auth/login` ao disparar qualquer requisição. Para que os IDs (`organization_id`, `lot_id`, `equipment_id`, etc.) sejam preenchidos automaticamente em cascata, execute os `POST` na ordem das pastas (`2. Empresas` → `3. Contratos` → `4. Lotes` → `5. Equipamentos`), ou selecione o ambiente **`5. Manual (Colar Token e IDs)`** para colar diretamente IDs já existentes do `seed`.
+>
+> **Uso sem importar coleção (somente JSON):** Em todas as rotas `/api/*` (exceto `/bootstrap` e `/login`), selecione na aba **Auth** a opção **Bearer Token** e cole o `token` retornado no login. Na aba **Body**, selecione **JSON** e cole apenas os blocos abaixo.
 
 ---
 
